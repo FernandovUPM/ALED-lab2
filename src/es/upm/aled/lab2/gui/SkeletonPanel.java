@@ -56,12 +56,39 @@ public class SkeletonPanel extends JPanel {
 	}
 
 	private void drawSkeleton(Graphics g, double parentX, double parentY, Node node) {
-		// TODO: Ponga comentarios en este método
+		/**
+		 * Fills an oval bounded by the specified rectangle with the current color.
+		 *
+		 * Parameters:
+		 * x the x coordinate of the upper left corner of the oval to be filled.
+		 * y the y coordinate of the upper left corner of the oval to be filled.
+		 * width the width of the oval to be filled.
+		 * height the height of the oval to be filled.
+		 */
 		g.fillOval((int) node.getX() - 4, (int) node.getY() - 4, 8, 8);
+		
+		/**
+		 * Draws a line, using the current color, between the points (x1, y1) and (x2, y2) in this graphics context's coordinate system.
+		 *
+		 * Parameters:
+		 * x1 the first point's x coordinate.
+		 * y1 the first point's y coordinate.
+		 * x2 the second point's x coordinate.
+		 * y2 the second point's y coordinate.
+		 */
 		g.drawLine((int) parentX, (int) parentY, (int) node.getX(), (int) node.getY());
+		
+		/**
+		 * Caso base
+		 * Ya no hay mas hijos
+		 */
 		if (node.getChildren().size() == 0) {
 			return;
 		}
+		/**
+		 * Caso recursivo
+		 * Para cuando hay hijos, dibujarlos
+		 */
 		for (Node child : node.getChildren()) {
 			drawSkeleton(g, node.getX(), node.getY(), child);
 		}

@@ -11,7 +11,14 @@ import es.upm.aled.lab2.gui.Node;
  * @author rgarciacarmona
  */
 public class ForwardKinematics {
-
+	double originX, originY;
+	Segment root = new Segment(originX, originY);
+	
+	double baseX, baseY;
+	Segment link = new Segment(baseX, baseY);
+	
+	double accumulatedAngle = 0.0;
+	
 	/**
 	 * Returns a tree of Nodes to be used by SkeletonPanel to draw the position of
 	 * an exoskeleton. This method is the public facade to a recursive method that
@@ -26,11 +33,29 @@ public class ForwardKinematics {
 	 */
 	// Public method: returns the root of the position tree
 	public static Node computePositions(Segment root, double originX, double originY) {
-		// TODO: Implemente este método
+		return computePositions(root, originX, originY, 0);
 	}
 
 	// Private helper method that implements the recursive algorithm
 	private static Node computePositions(Segment link, double baseX, double baseY, double accumulatedAngle) {
-		// TODO: Implemente este método
+		
+		accumulatedAngle += link.getAngle();
+		double X = 0.0;
+		double Y = 0.0;
+		
+		X = baseX + link.getLength()*Math.cos(accumulatedAngle);
+		Y = baseY + link.getLength()*Math.sin(accumulatedAngle);
+		
+		Node nodoActual = new Node(X,Y);
+		
+		if(link.getChildren().size()== 0) {
+			return nodoActual;
+		}
+		
+		for(Segment s : link.getChildren()) {
+			Node childNode = computePositions(s, X, Y, accumulatedAngle);
+			nodoActual.addChild(childNode);
+		}
+		return nodoActual;
 	}
 }
